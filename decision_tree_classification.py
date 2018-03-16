@@ -1,4 +1,8 @@
 # Decision Tree Classification
+# алгоритм разделяем горизонтальными и вертикальными линиями всю область
+# с точками, пытается захватить все возможные варианты, даже те, которые явно
+# были получены случайно или был сбой или исключение и поэтому алгоритм
+# на мой взгляд не так хорошо, он оверфиттинг (переобучен сильно)
 
 # Importing the libraries
 import numpy as np
@@ -14,14 +18,18 @@ y = dataset.iloc[:, 4].values
 from sklearn.cross_validation import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0)
 
-# Feature Scaling
+# Feature Scaling # тут можно это убрать, но не особо понял почему
+# 120 лекция самое начало, но мы оставляем для графика с шагом 0.01
 from sklearn.preprocessing import StandardScaler
 sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 
 # Fitting the classifire to the Training set
-# create your classifier here
+from sklearn.tree import DecisionTreeClassifier
+# criterion -  критерий насклько хорошо разбита область?
+classifier = DecisionTreeClassifier(criterion = 'entropy', random_state = 0)
+classifier.fit(X_train, y_train)
 
 # Predicting the Test set results
 y_pred = classifier.predict(X_test) # предсказываем данные из X_test
